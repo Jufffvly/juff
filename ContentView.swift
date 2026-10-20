@@ -395,7 +395,7 @@ struct ContentView: View {
         }
         guard a.isFinite, abs(a) > 1e-12 else { return nil }
         let xv = -b / (2 * a)
-        return CGPoint(x: xv, y: a * xv * xv + b * xv + c)
+        return CGPoint(x: CGFloat(xv), y: CGFloat(a * xv * xv + b * xv + c))
     }
 }
 
