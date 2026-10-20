@@ -218,17 +218,17 @@ struct ContentView: View {
             Section("当前函数") {
                 LabeledContent("表达式", value: expression)
                 if let yIntercept {
-                    LabeledContent("与 y 轴交点", value: "(0, \(yIntercept, specifier: "%.4g"))")
+                    LabeledContent("与 y 轴交点", value: String(format: "(0, %.4g)", yIntercept))
                 } else {
                     LabeledContent("与 y 轴交点", value: "不存在或未定义")
                 }
                 if xIntercepts.isEmpty {
                     LabeledContent("与 x 轴交点", value: "当前范围内未找到")
                 } else {
-                    LabeledContent("与 x 轴交点", value: xIntercepts.prefix(8).map { "(\($0, specifier: "%.4g"), 0)" }.joined(separator: "、"))
+                    LabeledContent("与 x 轴交点", value: xIntercepts.prefix(8).map { String(format: "(%.4g, 0)", $0) }.joined(separator: "、"))
                 }
                 if let vertex {
-                    LabeledContent("二次函数顶点", value: "(\(Double(vertex.x), specifier: "%.4g"), \(Double(vertex.y), specifier: "%.4g"))")
+                    LabeledContent("二次函数顶点", value: String(format: "(%.4g, %.4g)", Double(vertex.x), Double(vertex.y)))
                 } else {
                     LabeledContent("二次函数顶点", value: "未识别为标准二次多项式")
                 }
