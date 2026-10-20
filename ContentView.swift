@@ -498,7 +498,17 @@ private struct MathExpression {
                 guard let rhs = parsePower() else { return nil }
                 node = .binary(op, node, rhs)
             }
+            // Accept conventional school notation such as 2x, 3(x + 1), and 2sin(x).
+            while startsImplicitMultiplication {
+                guard let rhs = parsePower() else { return nil }
+                node = .binary("*", node, rhs)
+            }
             return node
+        }
+
+        private var startsImplicitMultiplication: Bool {
+            guard let char = peek else { return false }
+            return char == "x" || char == "(" || char.isLetter
         }
 
         private mutating func parsePower() -> Node? {
@@ -540,7 +550,7 @@ private struct MathExpression {
                 let name = String(characters[start..<index])
                 if name == "x" { return .variable }
                 if name == "pi" { return .number(Double.pi) }
-                if name == "e" { return .number(M_E) }
+                if name == "e" { return .number(exp(1)) }
                 let functions: Set<String> = ["sin", "cos", "tan", "abs", "sqrt", "exp", "ln", "log"]
                 guard functions.contains(name), peek == "(" else { return nil }
                 index += 1
